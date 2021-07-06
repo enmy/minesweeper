@@ -2,7 +2,6 @@ import { expect, test, describe } from '@jest/globals'
 import createBoard from '../createBoard'
 
 test('it should create a board', () => {
-  // TODO: investigate if one can seed the random
   expect(() => createBoard(8, 8, 10)).not.toThrow(Error)
 })
 
@@ -27,4 +26,17 @@ describe('it should throw when', () => {
     expect(() => createBoard(20, 5, 10)).toThrow(Error)
     expect(() => createBoard(5, 20, 10)).toThrow(Error)
   })
+})
+
+test('it should not have more than 6 adjacent mines', () => {
+  // TODO: investigate other aproach to this test because it's random
+  const board = createBoard(8, 8, 16)
+  expect(board[0]).not.toEqual(expect.arrayContaining([7, 8]))
+  expect(board[1]).not.toEqual(expect.arrayContaining([7, 8]))
+  expect(board[2]).not.toEqual(expect.arrayContaining([7, 8]))
+  expect(board[3]).not.toEqual(expect.arrayContaining([7, 8]))
+  expect(board[4]).not.toEqual(expect.arrayContaining([7, 8]))
+  expect(board[5]).not.toEqual(expect.arrayContaining([7, 8]))
+  expect(board[6]).not.toEqual(expect.arrayContaining([7, 8]))
+  expect(board[7]).not.toEqual(expect.arrayContaining([7, 8]))
 })

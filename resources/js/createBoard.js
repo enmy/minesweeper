@@ -1,17 +1,38 @@
 export default function createBoard (width, height, mines) {
   validateBoard(width, height, mines)
 
+  let tooManyTries = 0
+  while (tooManyTries++ < 1000) {
+    try {
+      return doCreateBoard(width, height, mines)
+    } catch (error) {
+      if (!(error instanceof CellWithTooManyAdjacentException)) {
+        throw error
+      }
+    }
+  }
+
+  throw new Error('Giving up trying to create the board, there are too many mines.')
+}
+
+function doCreateBoard (width, height, mines) {
   let placedMines = 0
   const board = createEmptyBoard(width, height)
+
   while (placedMines < mines) {
     const xTarget = Math.floor(Math.random() * width)
     const yTarget = Math.floor(Math.random() * height)
+
     if (!isMine(board[xTarget][yTarget])) {
       board[xTarget][yTarget] = mineValue()
       placedMines++
+
       visitAdjacent(xTarget, yTarget, width, height, board, (x, y) => {
         if (!isMine(board[x][y])) {
           board[x][y]++
+          if (board[x][y] > 6) {
+            throw new CellWithTooManyAdjacentException()
+          }
         }
       })
     }
@@ -50,7 +71,7 @@ function isMine (value) {
 }
 
 function mineValue () {
-  return 9
+  return -1
 }
 
 function visitAdjacent (x, y, width, height, board, fn) {
@@ -79,3 +100,5 @@ function visitAdjacent (x, y, width, height, board, fn) {
     fn(x + 1, y - 1)
   }
 }
+
+function CellWithTooManyAdjacentException () {}
