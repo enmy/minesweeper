@@ -7,14 +7,29 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "test": "jest",
+        "test-watch": "jest --watch"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.14.5",
         "axios": "^0.21",
+        "babel-jest": "^27.0.6",
+        "jest": "^27.0.6",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
         "standard": "^16.0.3"
+    },
+    "jest": {
+        "testRegex": "resources/js/tests/.*.test.jsx?$",
+        "transform": {
+            "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+        }
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-env"
+        ]
     }
 }
