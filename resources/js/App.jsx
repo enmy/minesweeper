@@ -1,4 +1,5 @@
 import React from 'react'
+import isMine from './isMine'
 import useBoard from './useBoard'
 
 export default function App () {
@@ -20,7 +21,13 @@ export default function App () {
                 >
                   {cell.state === 'covered'
                     ? ' '
-                    : (cell.value || ' ')}
+                    : (isMine(cell.value)
+                        ? (cell.state === 'exploted'
+                            ? String.fromCodePoint(0x1F4A5)
+                            : String.fromCodePoint(0x1F4A3)
+                          )
+                        : (cell.value || ' ')
+                      )}
                 </td>
               ))}
             </tr>

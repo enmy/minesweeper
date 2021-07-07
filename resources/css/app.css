@@ -19,7 +19,7 @@
     text-align: center;
 }
 
-.uncovered {
+.uncovered, .exploted {
     background-color: #bbbbbb;
     border-width: 1px;
     border-color: #999999;

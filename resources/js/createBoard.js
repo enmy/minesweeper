@@ -1,3 +1,5 @@
+import isMine from './isMine'
+import mineValue from './mineValue'
 import visitAdjacent from './visitAdjacent'
 
 export default function createBoard (width, height, mines) {
@@ -66,14 +68,6 @@ function createEmptyBoard (width, height) {
     }
   }
   return board
-}
-
-function isMine (value) {
-  return value === mineValue()
-}
-
-function mineValue () {
-  return -1
 }
 
 function CellWithTooManyAdjacentException () {}
