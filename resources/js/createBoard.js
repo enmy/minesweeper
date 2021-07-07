@@ -1,3 +1,5 @@
+import visitAdjacent from './visitAdjacent'
+
 export default function createBoard (width, height, mines) {
   validateBoard(width, height, mines)
 
@@ -27,7 +29,7 @@ function doCreateBoard (width, height, mines) {
       board[xTarget][yTarget] = mineValue()
       placedMines++
 
-      visitAdjacent(xTarget, yTarget, width, height, board, (x, y) => {
+      visitAdjacent(xTarget, yTarget, width, height, (x, y) => {
         if (!isMine(board[x][y])) {
           board[x][y]++
           if (board[x][y] > 6) {
@@ -72,33 +74,6 @@ function isMine (value) {
 
 function mineValue () {
   return -1
-}
-
-function visitAdjacent (x, y, width, height, board, fn) {
-  if (x - 1 >= 0) {
-    fn(x - 1, y)
-  }
-  if (y - 1 >= 0) {
-    fn(x, y - 1)
-  }
-  if (x - 1 >= 0 && y - 1 >= 0) {
-    fn(x - 1, y - 1)
-  }
-  if (x + 1 < width) {
-    fn(x + 1, y)
-  }
-  if (y + 1 < height) {
-    fn(x, y + 1)
-  }
-  if (x + 1 < width && y + 1 < height) {
-    fn(x + 1, y + 1)
-  }
-  if (x - 1 >= 0 && y + 1 < height) {
-    fn(x - 1, y + 1)
-  }
-  if (x + 1 < width && y - 1 >= 0) {
-    fn(x + 1, y - 1)
-  }
 }
 
 function CellWithTooManyAdjacentException () {}
