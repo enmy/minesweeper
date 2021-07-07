@@ -3,7 +3,7 @@ import isMine from './isMine'
 import useBoard from './useBoard'
 
 export default function App () {
-  const { board, uncover, restart } = useBoard()
+  const { board, uncover, restart, toogleFlag } = useBoard()
 
   return (
     <>
@@ -25,16 +25,19 @@ export default function App () {
                   key={`${rowIndex},${columnIndex}`}
                   className={`cell ${cell.state}`}
                   onClick={() => uncover(rowIndex, columnIndex)}
+                  onContextMenu={e => toogleFlag(e, rowIndex, columnIndex)}
                 >
                   {cell.state === 'covered'
                     ? ' '
-                    : (isMine(cell.value)
-                        ? (cell.state === 'exploted'
-                            ? String.fromCodePoint(0x1F4A5)
-                            : String.fromCodePoint(0x1F4A3)
-                          )
-                        : (cell.value || ' ')
-                      )}
+                    : (cell.state === 'flagged'
+                        ? String.fromCodePoint(0x1F6A9)
+                        : (isMine(cell.value)
+                            ? (cell.state === 'exploted'
+                                ? String.fromCodePoint(0x1F4A5)
+                                : String.fromCodePoint(0x1F4A3)
+                              )
+                            : (cell.value || ' ')
+                          ))}
                 </td>
               ))}
             </tr>

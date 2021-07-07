@@ -27,6 +27,24 @@ export default function useBoard () {
     setGameEnded(false)
   }, [])
 
+  const toogleFlag = useCallback((e, xTarget, yTarget) => {
+    e.preventDefault()
+
+    if (gameEnded) {
+      return
+    }
+
+    setBoard(board => {
+      const cell = board[xTarget][yTarget]
+      if (cell.state === 'flagged') {
+        cell.state = 'covered'
+      } else if (cell.state === 'covered') {
+        cell.state = 'flagged'
+      }
+      return [...board]
+    })
+  }, [])
+
   function uncoverRecursively (board, xTarget, yTarget) {
     uncoverCell(board, xTarget, yTarget)
 
@@ -67,6 +85,7 @@ export default function useBoard () {
   return {
     board,
     uncover,
-    restart
+    restart,
+    toogleFlag
   }
 }
