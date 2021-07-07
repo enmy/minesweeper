@@ -1,27 +1,8 @@
-import React, { useState } from 'react'
-import createBoard from './createBoard'
-import initBoard from './initBoard'
-import visitAdjacent from './visitAdjacent'
+import React from 'react'
+import useBoard from './useBoard'
 
 export default function App () {
-  const width = 10
-  const height = 10
-  const [board, setBoard] = useState(() => initBoard(createBoard(width, height, 16)))
-
-  function uncover (x, y) {
-    setBoard(board => {
-      console.log({ cell: board[x][y], x, y })
-      board[x][y].state = 'uncovered'
-      if (board[x][y].value === 0) {
-        visitAdjacent(x, y, width, height, (x, y) => {
-          if (board[x][y].state !== 'uncovered') {
-            uncover(x, y)
-          }
-        })
-      }
-      return [...board]
-    })
-  }
+  const { board, uncover } = useBoard()
 
   return (
     <>
