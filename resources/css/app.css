@@ -1,3 +1,13 @@
+.cell, .header {
+    margin: 0px;
+    border: 2px solid;
+    border-color: #eeeeee #999999 #999999 #eeeeee;
+    background-color: #cccccc;
+    padding: 0px;
+    vertical-align: middle;
+    text-align: center;
+}
+
 .cell {
     box-sizing: border-box;
     width: 24px;
@@ -10,13 +20,6 @@
     font-weight: bold;
     line-height: 18px;
     cursor: pointer;
-    margin: 0px;
-    border: 2px solid;
-    border-color: #eeeeee #999999 #999999 #eeeeee;
-    background-color: #cccccc;
-    padding: 0px;
-    vertical-align: middle;
-    text-align: center;
 }
 
 .uncovered, .exploted {
@@ -38,4 +41,28 @@
     -ms-user-select: none;
     -o-user-select: none;
     -webkit-user-select: none;
+}
+
+.counter {
+    margin: 10px;
+    border: 1px inset #eeeeee;
+    padding-right: 3px;
+    width: 1.75em;
+    background-color: #000000;
+    color: #ff6666;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: right;
+}
+
+.restarter {
+    width: 42px;
+    height: 24px;
+    margin: 2px;
+    border: 3px groove #eeeeee;
+    padding: 6px;
+    vertical-align: middle;
+    cursor: pointer;
+    display: inline-table;
 }

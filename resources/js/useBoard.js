@@ -9,12 +9,22 @@ export default function useBoard () {
   const height = 10
   const mines = 16
   const [board, setBoard] = useState(() => initBoard(createBoard(width, height, mines)))
+  const [gameEnded, setGameEnded] = useState(false)
 
   const uncover = useCallback((x, y) => {
+    if (gameEnded) {
+      return
+    }
+
     setBoard(board => {
       uncoverRecursively(board, x, y)
       return [...board]
     })
+  }, [gameEnded])
+
+  const restart = useCallback(() => {
+    setBoard(initBoard(createBoard(width, height, mines)))
+    setGameEnded(false)
   }, [])
 
   function uncoverRecursively (board, xTarget, yTarget) {
@@ -24,6 +34,7 @@ export default function useBoard () {
     if (isMine(cell.value)) {
       cell.state = 'exploted'
       uncoverAllMines(board)
+      setGameEnded(true)
     }
 
     if (cell.value === 0) {
@@ -55,6 +66,7 @@ export default function useBoard () {
 
   return {
     board,
-    uncover
+    uncover,
+    restart
   }
 }

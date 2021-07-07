@@ -3,7 +3,7 @@ import isMine from './isMine'
 import useBoard from './useBoard'
 
 export default function App () {
-  const { board, uncover } = useBoard()
+  const { board, uncover, restart } = useBoard()
 
   return (
     <>
@@ -11,6 +11,13 @@ export default function App () {
       <h3><i>by: Enmy Perez</i></h3>
       <table className='board'>
         <tbody>
+          <tr>
+            <td className='header' colSpan={board[0].length}>
+              <div className='counter' style={{ float: 'left' }}>&nbsp;</div>
+              <div className='counter' style={{ float: 'right' }}>&nbsp;</div>
+              <div className='restarter' onClick={restart}>{String.fromCodePoint(0x1F610)}</div>
+            </td>
+          </tr>
           {board.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, columnIndex) => (
