@@ -1,5 +1,5 @@
 import { expect, test, describe } from '@jest/globals'
-import createBoard from '../createBoard'
+import createBoard from '../../core/createBoard'
 
 test('it should create a board', () => {
   expect(() => createBoard(8, 8, 10)).not.toThrow(Error)

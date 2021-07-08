@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import createBoard from './createBoard'
-import initBoard from './initBoard'
-import isMine from './isMine'
-import visitAdjacent from './visitAdjacent'
+import createBoard from '../core/createBoard'
+import initBoard from '../core/initBoard'
+import isMine from '../core/isMine'
+import visitAdjacent from '../core/visitAdjacent'
 
 export default function useBoard (dimensions) {
   const { width, height, mines } = dimensions

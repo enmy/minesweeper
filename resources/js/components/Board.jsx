@@ -1,6 +1,6 @@
 import React from 'react'
-import isMine from './isMine'
-import useBoard from './useBoard'
+import isMine from '../core/isMine'
+import useBoard from '../hooks/useBoard'
 
 export default function Board ({ boardDimensions }) {
   const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded } = useBoard(boardDimensions)

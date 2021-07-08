@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import Board from './Board'
-import CustomDimensionsForm from './CustomDimensionsForm'
-import useBoardDimensions from './useBoardDimensions'
+import Board from './components/Board'
+import CustomDimensionsForm from './components/CustomDimensionsForm'
+import useBoardDimensions from './hooks/useBoardDimensions'
 
 export default function App () {
   const [showForm, setShowForm] = useState(false)
