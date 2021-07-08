@@ -71,4 +71,17 @@
 
 .level-selector {
     margin: 0.2em;
+    cursor: pointer;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+.dimension {
+    width: 4em;
+    height: 2em;
+    border: 1px solid #b9b9b9;
+    border-radius: 0.2em;
+    margin: 0.5em;
 }
