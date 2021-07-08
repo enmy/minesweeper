@@ -1,9 +1,12 @@
 import React from 'react'
 import isMine from './isMine'
 import useBoard from './useBoard'
+import useBoardDimensions from './useBoardDimensions'
 
 export default function App () {
-  const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded, setBoardDimensions } = useBoard()
+  const boardDimensions = useBoardDimensions()
+  const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded } = useBoard(boardDimensions)
+  const { setBoardDimensions, ...dimensions } = boardDimensions
 
   return (
     <>

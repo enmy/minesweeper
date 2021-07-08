@@ -4,10 +4,8 @@ import initBoard from './initBoard'
 import isMine from './isMine'
 import visitAdjacent from './visitAdjacent'
 
-export default function useBoard () {
-  const [width, setWidth] = useState(8)
-  const [height, setHeight] = useState(8)
-  const [mines, setMines] = useState(10)
+export default function useBoard (dimensions) {
+  const { width, height, mines } = dimensions
   const [board, setBoard] = useState(() => initBoard(createBoard(width, height, mines)))
   const [gameEnded, setGameEnded] = useState(false)
   const [seconds, setSeconds] = useState(0)
@@ -51,6 +49,10 @@ export default function useBoard () {
     restart()
   }, [width, height, mines])
 
+  useEffect(() => {
+    setMinesCounter(mines)
+  }, [mines])
+
   const uncover = useCallback((x, y) => {
     if (gameEnded) {
       return
@@ -88,13 +90,6 @@ export default function useBoard () {
       return [...board]
     })
   }, [])
-
-  const setBoardDimensions = useCallback((width, height, mines) => {
-    setWidth(width)
-    setHeight(height)
-    setMines(mines)
-    setMinesCounter(mines)
-  })
 
   function uncoverRecursively (board, xTarget, yTarget) {
     uncoverCell(board, xTarget, yTarget)
@@ -142,7 +137,6 @@ export default function useBoard () {
     toogleFlag,
     seconds,
     minesCounter,
-    gameEnded,
-    setBoardDimensions
+    gameEnded
   }
 }
