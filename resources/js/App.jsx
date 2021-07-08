@@ -3,7 +3,7 @@ import isMine from './isMine'
 import useBoard from './useBoard'
 
 export default function App () {
-  const { board, uncover, restart, toogleFlag, seconds, minesCounter } = useBoard()
+  const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded } = useBoard()
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function App () {
             <td className='header' colSpan={board[0].length}>
               <div className='counter' style={{ float: 'left' }}>{minesCounter}</div>
               <div className='counter' style={{ float: 'right' }}>{seconds > 999 ? 999 : seconds}</div>
-              <div className='restarter' onClick={restart}>{String.fromCodePoint(0x1F610)}</div>
+              <div className='restarter' onClick={restart}>{gameEnded ? (gameEnded === 'won' ? String.fromCodePoint(0x1F60E) : String.fromCodePoint(0x1F635)) : String.fromCodePoint(0x1F610)}</div>
             </td>
           </tr>
           {board.map((row, rowIndex) => (

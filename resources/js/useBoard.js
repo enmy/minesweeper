@@ -44,7 +44,7 @@ export default function useBoard () {
         }
       }
     }
-    setGameEnded(true)
+    setGameEnded('won')
   }, [board])
 
   const uncover = useCallback((x, y) => {
@@ -91,7 +91,7 @@ export default function useBoard () {
     const cell = board[xTarget][yTarget]
     if (isMine(cell.value)) {
       cell.state = 'exploted'
-      setGameEnded(true)
+      setGameEnded('lose')
     }
 
     if (cell.value === 0) {
@@ -130,6 +130,7 @@ export default function useBoard () {
     restart,
     toogleFlag,
     seconds,
-    minesCounter
+    minesCounter,
+    gameEnded
   }
 }
