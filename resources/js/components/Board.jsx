@@ -28,13 +28,15 @@ export default function Board ({ boardDimensions }) {
                   ? ' '
                   : (cell.state === 'flagged'
                       ? String.fromCodePoint(0x1F6A9)
-                      : (isMine(cell.value)
-                          ? (cell.state === 'exploted'
-                              ? String.fromCodePoint(0x1F4A5)
-                              : String.fromCodePoint(0x1F4A3)
-                            )
-                          : (cell.value || ' ')
-                        ))}
+                      : (cell.state === 'question-mark'
+                          ? String.fromCodePoint(0x2753)
+                          : (isMine(cell.value)
+                              ? (cell.state === 'exploted'
+                                  ? String.fromCodePoint(0x1F4A5)
+                                  : String.fromCodePoint(0x1F4A3)
+                                )
+                              : (cell.value || ' ')
+                            )))}
               </td>
             ))}
           </tr>

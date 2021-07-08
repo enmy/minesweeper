@@ -81,11 +81,13 @@ export default function useBoard (dimensions) {
     setBoard(board => {
       const cell = board[xTarget][yTarget]
       if (cell.state === 'flagged') {
-        cell.state = 'covered'
+        cell.state = 'question-mark'
         setMinesCounter(mines => mines + 1)
       } else if (cell.state === 'covered') {
         cell.state = 'flagged'
         setMinesCounter(mines => mines - 1)
+      } else if (cell.state === 'question-mark') {
+        cell.state = 'covered'
       }
       return [...board]
     })
@@ -125,7 +127,7 @@ export default function useBoard (dimensions) {
   function uncoverCell (board, xTarget, yTarget) {
     const cell = board[xTarget][yTarget]
     // TODO: add state for flagged errors or asertions
-    if (cell.state === 'covered') {
+    if (['covered', 'question-mark'].includes(cell.state)) {
       cell.state = 'uncovered'
     }
   }
