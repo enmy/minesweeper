@@ -12,6 +12,7 @@ export default function useBoard () {
   const [gameEnded, setGameEnded] = useState(false)
   const [seconds, setSeconds] = useState(0)
   const [runTimer, setRunTimer] = useState(false)
+  const [minesCounter, setMinesCounter] = useState(mines)
 
   useEffect(() => {
     if (!runTimer) {
@@ -31,6 +32,7 @@ export default function useBoard () {
       uncoverAllMines()
     } else {
       setSeconds(0)
+      setMinesCounter(mines)
     }
   }, [gameEnded])
 
@@ -74,8 +76,10 @@ export default function useBoard () {
       const cell = board[xTarget][yTarget]
       if (cell.state === 'flagged') {
         cell.state = 'covered'
+        setMinesCounter(mines => mines + 1)
       } else if (cell.state === 'covered') {
         cell.state = 'flagged'
+        setMinesCounter(mines => mines - 1)
       }
       return [...board]
     })
@@ -125,6 +129,7 @@ export default function useBoard () {
     uncover,
     restart,
     toogleFlag,
-    seconds
+    seconds,
+    minesCounter
   }
 }
