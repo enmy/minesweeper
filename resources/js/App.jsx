@@ -3,7 +3,7 @@ import isMine from './isMine'
 import useBoard from './useBoard'
 
 export default function App () {
-  const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded } = useBoard()
+  const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded, setBoardDimensions } = useBoard()
 
   return (
     <>
@@ -44,6 +44,11 @@ export default function App () {
           ))}
         </tbody>
       </table>
+      <div>
+        <a href='javascript:void(0)' className='level-selector' onClick={() => setBoardDimensions(8, 8, 10)}>Beginner</a>
+        <a href='javascript:void(0)' className='level-selector' onClick={() => setBoardDimensions(16, 16, 40)}>Intermediate</a>
+        <a href='javascript:void(0)' className='level-selector' onClick={() => setBoardDimensions(16, 30, 99)}>Expert</a>
+      </div>
     </>
   )
 }
