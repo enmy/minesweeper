@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import createBoard from './createBoard'
 import initBoard from './initBoard'
 import isMine from './isMine'
@@ -10,11 +10,35 @@ export default function useBoard () {
   const mines = 16
   const [board, setBoard] = useState(() => initBoard(createBoard(width, height, mines)))
   const [gameEnded, setGameEnded] = useState(false)
+  const [seconds, setSeconds] = useState(0)
+  const [runTimer, setRunTimer] = useState(false)
+
+  useEffect(() => {
+    if (!runTimer) {
+      return
+    }
+
+    const interval = setInterval(() => {
+      setSeconds(seconds => seconds + 1)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [runTimer])
+
+  useEffect(() => {
+    if (gameEnded) {
+      setRunTimer(false)
+    } else {
+      setSeconds(0)
+    }
+  }, [gameEnded])
 
   const uncover = useCallback((x, y) => {
     if (gameEnded) {
       return
     }
+
+    setRunTimer(true)
 
     setBoard(board => {
       uncoverRecursively(board, x, y)
@@ -86,6 +110,7 @@ export default function useBoard () {
     board,
     uncover,
     restart,
-    toogleFlag
+    toogleFlag,
+    seconds
   }
 }
