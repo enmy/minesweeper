@@ -28,6 +28,7 @@ export default function useBoard () {
   useEffect(() => {
     if (gameEnded) {
       setRunTimer(false)
+      uncoverAllMines()
     } else {
       setSeconds(0)
     }
@@ -75,7 +76,6 @@ export default function useBoard () {
     const cell = board[xTarget][yTarget]
     if (isMine(cell.value)) {
       cell.state = 'exploted'
-      uncoverAllMines(board)
       setGameEnded(true)
     }
 
@@ -88,14 +88,17 @@ export default function useBoard () {
     }
   }
 
-  function uncoverAllMines (board) {
-    board.forEach((row, rowIndex) => (
-      row.forEach((cell, columnIndex) => {
-        if (isMine(cell.value)) {
-          uncoverCell(board, rowIndex, columnIndex)
-        }
-      })
-    ))
+  function uncoverAllMines () {
+    setBoard(board => {
+      board.forEach((row, rowIndex) => (
+        row.forEach((cell, columnIndex) => {
+          if (isMine(cell.value)) {
+            uncoverCell(board, rowIndex, columnIndex)
+          }
+        })
+      ))
+      return [...board]
+    })
   }
 
   function uncoverCell (board, xTarget, yTarget) {
