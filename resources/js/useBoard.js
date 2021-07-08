@@ -34,6 +34,17 @@ export default function useBoard () {
     }
   }, [gameEnded])
 
+  useEffect(() => {
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (!isMine(board[i][j].value) && board[i][j].state !== 'uncovered') {
+          return
+        }
+      }
+    }
+    setGameEnded(true)
+  }, [board])
+
   const uncover = useCallback((x, y) => {
     if (gameEnded) {
       return
