@@ -1,6 +1,7 @@
 import React from 'react'
 import isMine from '../core/isMine'
 import useBoard from '../hooks/useBoard'
+import Emoji from './Emoji'
 
 export default function Board ({ boardDimensions }) {
   const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded } = useBoard(boardDimensions)
@@ -12,7 +13,14 @@ export default function Board ({ boardDimensions }) {
           <td className='header' colSpan={board[0].length}>
             <div className='counter' style={{ float: 'left' }}>{minesCounter}</div>
             <div className='counter' style={{ float: 'right' }}>{seconds > 999 ? 999 : seconds}</div>
-            <div className='restarter' onClick={restart}>{gameEnded ? (gameEnded === 'won' ? String.fromCodePoint(0x1F60E) : String.fromCodePoint(0x1F635)) : String.fromCodePoint(0x1F610)}</div>
+            <div className='restarter' onClick={restart}>
+              {gameEnded
+                ? (gameEnded === 'won'
+                    ? <Emoji code='smiling_face_with_sunglasses' />
+                    : <Emoji code='dizzy_face' />
+                  )
+                : <Emoji code='neutral_face' />}
+            </div>
           </td>
         </tr>
         {board.map((row, rowIndex) => (
@@ -27,13 +35,13 @@ export default function Board ({ boardDimensions }) {
                 {cell.state === 'covered'
                   ? ' '
                   : (cell.state === 'flagged'
-                      ? String.fromCodePoint(0x1F6A9)
+                      ? <Emoji code='triangular_flag' />
                       : (cell.state === 'question-mark'
-                          ? String.fromCodePoint(0x2753)
+                          ? <Emoji code='question' />
                           : (isMine(cell.value)
                               ? (cell.state === 'exploted'
-                                  ? String.fromCodePoint(0x1F4A5)
-                                  : String.fromCodePoint(0x1F4A3)
+                                  ? <Emoji code='boom' />
+                                  : <Emoji code='bomb' />
                                 )
                               : (cell.value || ' ')
                             )))}
