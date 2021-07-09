@@ -2,13 +2,13 @@ import isMine from './isMine'
 import mineValue from './mineValue'
 import visitAdjacent from './visitAdjacent'
 
-export default function createBoard (width, height, mines) {
+export default function createBoard (width, height, mines, maxAdjacentMines = 6) {
   validateBoard(width, height, mines)
 
   let tooManyTries = 0
   while (tooManyTries++ < 1000) {
     try {
-      return doCreateBoard(width, height, mines)
+      return doCreateBoard(width, height, mines, maxAdjacentMines)
     } catch (error) {
       if (!(error instanceof CellWithTooManyAdjacentException)) {
         throw error
@@ -19,7 +19,7 @@ export default function createBoard (width, height, mines) {
   throw new Error('Giving up trying to create the board, there are too many mines.')
 }
 
-function doCreateBoard (width, height, mines) {
+function doCreateBoard (width, height, mines, maxAdjacentMines) {
   let placedMines = 0
   const board = createEmptyBoard(width, height)
 
@@ -34,7 +34,7 @@ function doCreateBoard (width, height, mines) {
       visitAdjacent(xTarget, yTarget, width, height, (x, y) => {
         if (!isMine(board[x][y])) {
           board[x][y]++
-          if (board[x][y] > 6) {
+          if (board[x][y] > maxAdjacentMines) {
             throw new CellWithTooManyAdjacentException()
           }
         }

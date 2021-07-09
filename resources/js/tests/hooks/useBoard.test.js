@@ -56,6 +56,25 @@ test('it should be wrong-flagged when the game ends', () => {
   expect(result.current.board[nonMineCell.x][nonMineCell.y].state).toBe('wrong-flagged')
 })
 
+test('it should uncover all cells', () => {
+  const dimensions = {
+    width: 6,
+    height: 6,
+    mines: 0
+  }
+  const { result } = renderHook(() => useBoard(dimensions))
+
+  act(() => {
+    result.current.uncover(0, 0)
+  })
+
+  result.current.board.forEach(row => (
+    row.forEach(cell => {
+      expect(cell.state).toBe('uncovered')
+    })
+  ))
+})
+
 function nonMineCellCoordinates (board) {
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[x].length; y++) {

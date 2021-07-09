@@ -5,7 +5,7 @@ import isMine from '../core/isMine'
 import visitAdjacent from '../core/visitAdjacent'
 
 export default function useBoard (dimensions, defaultBoard = null) {
-  const { width, height, mines } = dimensions
+  const { width, height, mines, maxAdjacentMines } = dimensions
   const [board, setBoard] = useState(() => defaultBoard || initBoard(createBoard(width, height, mines)))
   const [gameEnded, setGameEnded] = useState(false)
   const [seconds, setSeconds] = useState(0)
@@ -67,9 +67,9 @@ export default function useBoard (dimensions, defaultBoard = null) {
   }, [gameEnded])
 
   const restart = useCallback(() => {
-    setBoard(initBoard(createBoard(width, height, mines)))
+    setBoard(initBoard(createBoard(width, height, mines, maxAdjacentMines)))
     setGameEnded(false)
-  }, [width, height, mines])
+  }, [width, height, mines, maxAdjacentMines])
 
   const toogleFlag = useCallback((xTarget, yTarget) => {
     if (gameEnded) {
@@ -92,12 +92,12 @@ export default function useBoard (dimensions, defaultBoard = null) {
   }, [])
 
   function uncoverRecursively (board, xTarget, yTarget) {
-    uncoverCell(board, xTarget, yTarget)
-
     const cell = board[xTarget][yTarget]
     if (isMine(cell.value)) {
       cell.state = 'exploted'
       setGameEnded('lose')
+    } else {
+      uncoverCell(board, xTarget, yTarget)
     }
 
     if (cell.value === 0 && cell.state !== 'flagged') {

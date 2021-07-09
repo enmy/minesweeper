@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function CustomDimensionsForm ({ boardDimensions, showForm }) {
+export default function CustomDimensionsForm ({ boardDimensions, showForm, maxAdjacentMines = 8 }) {
   const { setBoardDimensions, ...dimensions } = boardDimensions
 
   return (
@@ -12,7 +12,7 @@ export default function CustomDimensionsForm ({ boardDimensions, showForm }) {
           className='dimension'
           name='width'
           value={dimensions.height}
-          onChange={e => setBoardDimensions(dimensions.width, e.target.value, dimensions.mines)}
+          onChange={e => setBoardDimensions(dimensions.width, e.target.value, dimensions.mines, maxAdjacentMines)}
         />
       </label>
       <br />
@@ -23,7 +23,7 @@ export default function CustomDimensionsForm ({ boardDimensions, showForm }) {
           className='dimension'
           name='height'
           value={dimensions.width}
-          onChange={e => setBoardDimensions(e.target.value, dimensions.height, dimensions.mines)}
+          onChange={e => setBoardDimensions(e.target.value, dimensions.height, dimensions.mines, maxAdjacentMines)}
         />
       </label>
       <br />
@@ -34,7 +34,7 @@ export default function CustomDimensionsForm ({ boardDimensions, showForm }) {
           className='dimension'
           name='mines'
           value={dimensions.mines}
-          onChange={e => setBoardDimensions(dimensions.width, dimensions.height, e.target.value)}
+          onChange={e => setBoardDimensions(dimensions.width, dimensions.height, e.target.value, maxAdjacentMines)}
         />
       </label>
     </div>

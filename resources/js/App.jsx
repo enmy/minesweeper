@@ -26,7 +26,7 @@ export default function App () {
       <div>
         <span className='level-selector' onClick={() => setBoardDimensions(8, 8, 10)}>Beginner</span>
         <span className='level-selector' onClick={() => setBoardDimensions(16, 16, 40)}>Intermediate</span>
-        <span className='level-selector' onClick={() => setBoardDimensions(16, 30, 99)}>Expert</span>
+        <span className='level-selector' onClick={() => setBoardDimensions(16, 30, 99, 8)}>Expert</span>
         <span className='level-selector' onClick={() => setShowForm(show => !show)}>Custom</span>
       </div>
       <CustomDimensionsForm
