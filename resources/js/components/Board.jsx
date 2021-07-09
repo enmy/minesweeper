@@ -1,7 +1,7 @@
 import React from 'react'
 import useBoard from '../hooks/useBoard'
 import CellEmoji from './CellEmoji'
-import Emoji from './Emoji'
+import GameStateEmoji from './GameStateEmoji'
 
 export default function Board ({ boardDimensions }) {
   const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded } = useBoard(boardDimensions)
@@ -14,12 +14,7 @@ export default function Board ({ boardDimensions }) {
             <div className='counter' style={{ float: 'left' }}>{minesCounter}</div>
             <div className='counter' style={{ float: 'right' }}>{seconds > 999 ? 999 : seconds}</div>
             <div className='restarter' onClick={restart}>
-              {gameEnded
-                ? (gameEnded === 'won'
-                    ? <Emoji code='smiling_face_with_sunglasses' />
-                    : <Emoji code='dizzy_face' />
-                  )
-                : <Emoji code='neutral_face' />}
+              <GameStateEmoji gameState={gameEnded} />
             </div>
           </td>
         </tr>
