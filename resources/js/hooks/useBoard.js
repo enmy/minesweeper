@@ -89,7 +89,7 @@ export default function useBoard (dimensions, defaultBoard = null) {
       }
       return [...board]
     })
-  }, [])
+  }, [gameEnded])
 
   function uncoverRecursively (board, xTarget, yTarget) {
     const cell = board[xTarget][yTarget]

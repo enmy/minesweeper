@@ -9,7 +9,7 @@ export default function Board ({ boardDimensions }) {
   const handleToogleFlag = useCallback((e, rowIndex, columnIndex) => {
     e.preventDefault()
     toogleFlag(rowIndex, columnIndex)
-  }, [])
+  }, [toogleFlag])
 
   return (
     <table className='board'>

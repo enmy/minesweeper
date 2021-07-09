@@ -75,6 +75,29 @@ test('it should uncover all cells', () => {
   ))
 })
 
+test('it should not flag when game ended', () => {
+  const dimensions = {
+    width: 6,
+    height: 6,
+    mines: 1
+  }
+  const { result } = renderHook(() => useBoard(dimensions))
+
+  const mineCell = mineCellCoordinates(result.current.board)
+  const nonMineCell = nonMineCellCoordinates(result.current.board)
+
+  act(() => {
+    result.current.uncover(mineCell.x, mineCell.y)
+  })
+
+  act(() => {
+    result.current.toogleFlag(nonMineCell.x, nonMineCell.y)
+  })
+
+  expect(result.current.board[nonMineCell.x][nonMineCell.y].state).toBe('covered')
+  expect(result.current.gameEnded).toBe('lose')
+})
+
 function nonMineCellCoordinates (board) {
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[x].length; y++) {
