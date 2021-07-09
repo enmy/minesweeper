@@ -28,7 +28,7 @@ export default function Board ({ boardDimensions }) {
             {row.map((cell, columnIndex) => (
               <td
                 key={`${rowIndex},${columnIndex}`}
-                className={`cell ${cell.state}`}
+                className={`cell ${cell.state} cell-${cell.value}`}
                 onClick={() => uncover(rowIndex, columnIndex)}
                 onContextMenu={e => handleToogleFlag(e, rowIndex, columnIndex)}
               >
