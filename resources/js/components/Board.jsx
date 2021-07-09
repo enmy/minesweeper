@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import useBoard from '../hooks/useBoard'
 import CellEmoji from './CellEmoji'
 import GameStateEmoji from './GameStateEmoji'
 
 export default function Board ({ boardDimensions }) {
   const { board, uncover, restart, toogleFlag, seconds, minesCounter, gameEnded } = useBoard(boardDimensions)
+
+  const handleToogleFlag = useCallback((e, rowIndex, columnIndex) => {
+    e.preventDefault()
+    toogleFlag(rowIndex, columnIndex)
+  }, [])
 
   return (
     <table className='board'>
@@ -25,7 +30,7 @@ export default function Board ({ boardDimensions }) {
                 key={`${rowIndex},${columnIndex}`}
                 className={`cell ${cell.state}`}
                 onClick={() => uncover(rowIndex, columnIndex)}
-                onContextMenu={e => toogleFlag(e, rowIndex, columnIndex)}
+                onContextMenu={e => handleToogleFlag(e, rowIndex, columnIndex)}
               >
                 <CellEmoji cell={cell} />
               </td>

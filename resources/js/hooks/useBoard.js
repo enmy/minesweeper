@@ -71,9 +71,7 @@ export default function useBoard (dimensions) {
     setGameEnded(false)
   }, [width, height, mines])
 
-  const toogleFlag = useCallback((e, xTarget, yTarget) => {
-    e.preventDefault()
-
+  const toogleFlag = useCallback((xTarget, yTarget) => {
     if (gameEnded) {
       return
     }
