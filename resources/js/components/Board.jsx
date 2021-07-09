@@ -1,6 +1,6 @@
 import React from 'react'
-import isMine from '../core/isMine'
 import useBoard from '../hooks/useBoard'
+import CellEmoji from './CellEmoji'
 import Emoji from './Emoji'
 
 export default function Board ({ boardDimensions }) {
@@ -32,19 +32,7 @@ export default function Board ({ boardDimensions }) {
                 onClick={() => uncover(rowIndex, columnIndex)}
                 onContextMenu={e => toogleFlag(e, rowIndex, columnIndex)}
               >
-                {cell.state === 'covered'
-                  ? ' '
-                  : (cell.state === 'flagged'
-                      ? <Emoji code='triangular_flag' />
-                      : (cell.state === 'question-mark'
-                          ? <Emoji code='question' />
-                          : (isMine(cell.value)
-                              ? (cell.state === 'exploted'
-                                  ? <Emoji code='boom' />
-                                  : <Emoji code='bomb' />
-                                )
-                              : (cell.value || ' ')
-                            )))}
+                <CellEmoji cell={cell} />
               </td>
             ))}
           </tr>
