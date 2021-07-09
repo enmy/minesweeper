@@ -25,6 +25,9 @@ function emojiFromCodePoint (code) {
     case 'neutral_face':
       return String.fromCodePoint(0x1F610)
 
+    case 'cross_mark':
+      return String.fromCodePoint(0x274C)
+
     default:
       throw Error(`Emoji ${code} not implemented`)
   }

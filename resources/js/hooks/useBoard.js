@@ -4,9 +4,9 @@ import initBoard from '../core/initBoard'
 import isMine from '../core/isMine'
 import visitAdjacent from '../core/visitAdjacent'
 
-export default function useBoard (dimensions) {
+export default function useBoard (dimensions, defaultBoard = null) {
   const { width, height, mines } = dimensions
-  const [board, setBoard] = useState(() => initBoard(createBoard(width, height, mines)))
+  const [board, setBoard] = useState(() => defaultBoard || initBoard(createBoard(width, height, mines)))
   const [gameEnded, setGameEnded] = useState(false)
   const [seconds, setSeconds] = useState(0)
   const [runTimer, setRunTimer] = useState(false)
@@ -113,7 +113,7 @@ export default function useBoard (dimensions) {
     setBoard(board => {
       board.forEach((row, rowIndex) => (
         row.forEach((cell, columnIndex) => {
-          if (isMine(cell.value)) {
+          if (isMine(cell.value) || cell.state === 'flagged') {
             uncoverCell(board, rowIndex, columnIndex)
           }
         })
@@ -124,9 +124,10 @@ export default function useBoard (dimensions) {
 
   function uncoverCell (board, xTarget, yTarget) {
     const cell = board[xTarget][yTarget]
-    // TODO: add state for flagged errors or asertions
     if (['covered', 'question-mark'].includes(cell.state)) {
       cell.state = 'uncovered'
+    } else if (cell.state === 'flagged' && !isMine(cell.value) && gameEnded) {
+      cell.state = 'wrong-flagged'
     }
   }
 

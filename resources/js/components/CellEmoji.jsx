@@ -19,6 +19,9 @@ export default function CellEmoji ({ cell }) {
     case 'uncovered':
       return isMine(cell.value) ? <Emoji code='bomb' /> : (cell.value || ' ')
 
+    case 'wrong-flagged':
+      return <Emoji code='cross_mark' />
+
     default:
       throw Error(`Cell state '${cell.state}' not implemented`)
   }

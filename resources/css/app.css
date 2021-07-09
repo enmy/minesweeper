@@ -22,7 +22,7 @@
     cursor: pointer;
 }
 
-.uncovered, .exploted {
+.uncovered, .exploted, .wrong-flagged {
     background-color: #bbbbbb;
     border-width: 1px;
     border-color: #999999;
