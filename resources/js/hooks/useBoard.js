@@ -64,7 +64,7 @@ export default function useBoard (dimensions, defaultBoard = null) {
       uncoverRecursively(board, x, y)
       return [...board]
     })
-  }, [gameEnded])
+  }, [gameEnded, width, height])
 
   const restart = useCallback(() => {
     setBoard(initBoard(createBoard(width, height, mines, maxAdjacentMines)))
