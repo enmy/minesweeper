@@ -8,11 +8,12 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "test": "jest",
-        "test-watch": "jest --watch"
+        "test": "jest --env=jsdom",
+        "test-watch": "jest --watch --env=jsdom"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.14.5",
+        "@testing-library/react-hooks": "^7.0.1",
         "axios": "^0.21",
         "babel-jest": "^27.0.6",
         "jest": "^27.0.6",
