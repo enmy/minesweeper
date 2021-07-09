@@ -100,7 +100,7 @@ export default function useBoard (dimensions) {
       setGameEnded('lose')
     }
 
-    if (cell.value === 0) {
+    if (cell.value === 0 && cell.state !== 'flagged') {
       visitAdjacent(xTarget, yTarget, width, height, (x, y) => {
         if (board[x][y].state !== 'uncovered') {
           uncoverRecursively(board, x, y)
