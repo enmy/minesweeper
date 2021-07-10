@@ -3,33 +3,21 @@ import createBoard from '../core/createBoard'
 import initBoard from '../core/initBoard'
 import isMine from '../core/isMine'
 import visitAdjacent from '../core/visitAdjacent'
+import useSecondsHand from './useSecondsHand'
 
-export default function useBoard (dimensions, defaultBoard = null) {
+export default function useBoard (dimensions) {
   const { width, height, mines, maxAdjacentMines } = dimensions
-  const [board, setBoard] = useState(() => defaultBoard || initBoard(createBoard(width, height, mines)))
+  const [board, setBoard] = useState(() => initBoard(createBoard(width, height, mines)))
   const [gameEnded, setGameEnded] = useState(false)
-  const [seconds, setSeconds] = useState(0)
   const [runTimer, setRunTimer] = useState(false)
   const [minesCounter, setMinesCounter] = useState(mines)
-
-  useEffect(() => {
-    if (!runTimer) {
-      return
-    }
-
-    const interval = setInterval(() => {
-      setSeconds(seconds => seconds + 1)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [runTimer])
+  const [seconds] = useSecondsHand(runTimer, gameEnded)
 
   useEffect(() => {
     if (gameEnded) {
       setRunTimer(false)
       uncoverAllMines()
     } else {
-      setSeconds(0)
       setMinesCounter(mines)
     }
   }, [gameEnded])
