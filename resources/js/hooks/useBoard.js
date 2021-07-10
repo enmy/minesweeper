@@ -11,7 +11,7 @@ export default function useBoard (dimensions) {
   const [gameEnded, setGameEnded] = useState(false)
   const [runTimer, setRunTimer] = useState(false)
   const [minesCounter, setMinesCounter] = useState(mines)
-  const [seconds] = useSecondsHand(runTimer, gameEnded)
+  const [seconds, setSeconds] = useSecondsHand(runTimer, gameEnded)
 
   useEffect(() => {
     if (gameEnded) {
@@ -57,6 +57,8 @@ export default function useBoard (dimensions) {
   const restart = useCallback(() => {
     setBoard(initBoard(createBoard(width, height, mines, maxAdjacentMines)))
     setGameEnded(false)
+    setRunTimer(false)
+    setSeconds(0)
   }, [width, height, mines, maxAdjacentMines])
 
   const toogleFlag = useCallback((xTarget, yTarget) => {

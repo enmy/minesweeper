@@ -1,7 +1,8 @@
-import { expect, test } from '@jest/globals'
+import { expect, jest, test } from '@jest/globals'
 import { act, renderHook } from '@testing-library/react-hooks'
 import isMine from '../../core/isMine'
 import useBoard from '../../hooks/useBoard'
+import useBoardDimensions from '../../hooks/useBoardDimensions'
 
 test('it should uncover cell', () => {
   const dimensions = {
@@ -98,6 +99,43 @@ test('it should not flag when game ended', () => {
   expect(result.current.gameEnded).toBe('lose')
 })
 
+test('it should restart seconds when dimensions change', () => {
+  jest.useFakeTimers()
+
+  const defaultDimensions = {
+    defaultWidth: 6,
+    defaultHeight: 6,
+    defaultMines: 6
+  }
+
+  const { result } = renderHook(() => {
+    const dimensions = useBoardDimensions(defaultDimensions)
+    const board = useBoard(dimensions)
+    return { dimensions, board }
+  })
+
+  const numberCell = numberCellCoordinates(result.current.board.board)
+
+  act(() => {
+    result.current.board.uncover(numberCell.x, numberCell.y)
+  })
+
+  expect(result.current.board.gameEnded).toBe(false)
+  expect(result.current.board.seconds).toBe(0)
+
+  act(() => {
+    jest.runOnlyPendingTimers()
+  })
+
+  expect(result.current.board.seconds).toBe(1)
+
+  act(() => {
+    result.current.dimensions.setBoardDimensions(7, 7, 2)
+  })
+
+  expect(result.current.board.seconds).toBe(0)
+})
+
 function nonMineCellCoordinates (board) {
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[x].length; y++) {
@@ -115,6 +153,19 @@ function mineCellCoordinates (board) {
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[x].length; y++) {
       if (isMine(board[x][y].value)) {
+        return {
+          x,
+          y
+        }
+      }
+    }
+  }
+}
+
+function numberCellCoordinates (board) {
+  for (let x = 0; x < board.length; x++) {
+    for (let y = 0; y < board[x].length; y++) {
+      if ([1, 2, 3, 4, 5, 6, 7, 8].includes(board[x][y].value)) {
         return {
           x,
           y
