@@ -82,14 +82,9 @@ export default function useBoard (dimensions) {
   }, [gameEnded])
 
   function uncoverRecursively (board, xTarget, yTarget) {
-    const cell = board[xTarget][yTarget]
-    if (isMine(cell.value)) {
-      cell.state = 'exploted'
-      setGameEnded('lose')
-    } else {
-      uncoverCell(board, xTarget, yTarget)
-    }
+    uncoverCell(board, xTarget, yTarget)
 
+    const cell = board[xTarget][yTarget]
     if (cell.value === 0 && cell.state !== 'flagged') {
       visitAdjacent(xTarget, yTarget, width, height, (x, y) => {
         if (board[x][y].state !== 'uncovered') {
@@ -114,7 +109,10 @@ export default function useBoard (dimensions) {
 
   function uncoverCell (board, xTarget, yTarget) {
     const cell = board[xTarget][yTarget]
-    if (['covered', 'question-mark'].includes(cell.state)) {
+    if (isMine(cell.value) && cell.state !== 'flagged' && !gameEnded) {
+      cell.state = 'exploted'
+      setGameEnded('lose')
+    } else if (['covered', 'question-mark'].includes(cell.state)) {
       cell.state = 'uncovered'
     } else if (cell.state === 'flagged' && !isMine(cell.value) && gameEnded) {
       cell.state = 'wrong-flagged'

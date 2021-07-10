@@ -136,6 +136,30 @@ test('it should restart seconds when dimensions change', () => {
   expect(result.current.board.seconds).toBe(0)
 })
 
+test('it should not explode a flagged cell', () => {
+  const dimensions = {
+    width: 6,
+    height: 6,
+    mines: 5
+  }
+  const { result } = renderHook(() => useBoard(dimensions))
+
+  const mineCell = mineCellCoordinates(result.current.board)
+
+  act(() => {
+    result.current.toogleFlag(mineCell.x, mineCell.y)
+  })
+
+  expect(result.current.board[mineCell.x][mineCell.y].state).toBe('flagged')
+
+  act(() => {
+    result.current.uncover(mineCell.x, mineCell.y)
+  })
+
+  expect(result.current.board[mineCell.x][mineCell.y].state).toBe('flagged')
+  expect(result.current.gameEnded).toBe(false)
+})
+
 function nonMineCellCoordinates (board) {
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[x].length; y++) {
