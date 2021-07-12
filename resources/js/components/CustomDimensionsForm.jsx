@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function CustomDimensionsForm ({ boardDimensions, showForm, maxAdjacentMines = 8 }) {
+export default function CustomDimensionsForm ({ boardDimensions, showForm, submit, maxAdjacentMines = 8 }) {
   const { setBoardDimensions, ...dimensions } = boardDimensions
 
   return (
@@ -37,6 +37,7 @@ export default function CustomDimensionsForm ({ boardDimensions, showForm, maxAd
           onChange={e => setBoardDimensions(dimensions.width, dimensions.height, e.target.value, maxAdjacentMines)}
         />
       </label>
+      <button onClick={submit} className='py-4' style={{ display: 'block' }}>Submit</button>
     </div>
   )
 }

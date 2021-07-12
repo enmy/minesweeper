@@ -69,9 +69,9 @@
     display: inline-table;
 }
 
-.level-selector {
-    margin: 0.2em;
+.menu-option {
     cursor: pointer;
+    color: #112f7b;
 }
 
 .invisible {
