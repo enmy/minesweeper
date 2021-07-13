@@ -13,7 +13,7 @@ class Validators extends AbstractValidators
      * @var string[]|null
      *      the allowed paths, an empty array for none allowed, or null to allow all paths.
      */
-    protected $allowedIncludePaths = [];
+    protected $allowedIncludePaths = null;
 
     /**
      * The sort field names a client is allowed send.
@@ -21,7 +21,7 @@ class Validators extends AbstractValidators
      * @var string[]|null
      *      the allowed fields, an empty array for none allowed, or null to allow all fields.
      */
-    protected $allowedSortParameters = [];
+    protected $allowedSortParameters = null;
 
     /**
      * The filters a client is allowed send.
@@ -29,7 +29,7 @@ class Validators extends AbstractValidators
      * @var string[]|null
      *      the allowed filters, an empty array for none allowed, or null to allow all.
      */
-    protected $allowedFilteringParameters = [];
+    protected $allowedFilteringParameters = null;
 
     /**
      * Get resource validation rules.
@@ -42,12 +42,25 @@ class Validators extends AbstractValidators
      */
     protected function rules($record, array $data): array
     {
-        return [
-            'board' => ['required', 'json'],
-            'dimensions' => ['required', 'json'],
-            'seconds' => ['required', 'integer'],
-            'browser_id' => ['required', 'unique:boards'],
+        // update rules
+        $rules = [
+            'board' => ['json'],
+            'dimensions' => ['json'],
+            'seconds' => ['integer'],
+            'browser_id' => ['unique:boards'],
         ];
+
+        // create rules
+        if (is_null($record)) {
+            return array_merge_recursive([
+                'board' => ['required'],
+                'dimensions' => ['required'],
+                'seconds' => ['required'],
+                'browser_id' => ['required'],
+            ], $rules);
+        }
+
+        return $rules;
     }
 
     /**

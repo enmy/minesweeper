@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-export default function useSecondsHand (run, gameEnded) {
-  const [seconds, setSeconds] = useState(0)
+export default function useSecondsHand (run, gameEnded, { defaultSeconds = 0 } = {}) {
+  const [seconds, setSeconds] = useState(defaultSeconds)
 
   useEffect(() => {
-    if (!run) {
+    if (!run && !defaultSeconds) {
       return
     }
 
@@ -16,7 +16,7 @@ export default function useSecondsHand (run, gameEnded) {
   }, [run])
 
   useEffect(() => {
-    if (!gameEnded) {
+    if (!gameEnded && !defaultSeconds) {
       setSeconds(0)
     }
   }, [gameEnded])

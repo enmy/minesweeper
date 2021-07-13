@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 JsonApi::register('default')->routes(function ($api) {
-    $api->resource('boards')->except('index');
+    $api->resource('boards');
 });

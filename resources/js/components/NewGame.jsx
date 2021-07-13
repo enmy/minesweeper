@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react'
 import CustomDimensionsForm from './CustomDimensionsForm'
 
-export default function NewGame ({ setView, dimensions }) {
+export default function NewGame ({ onBoardView, dimensions }) {
   const [showForm, setShowForm] = useState(false)
   const { setBoardDimensions } = dimensions
 
   const setDimensions = useCallback((width, height, mines, maxAdjacentMines) => {
     setBoardDimensions(width, height, mines, maxAdjacentMines)
-    setView('board')
-  })
+    onBoardView()
+  }, [setBoardDimensions, onBoardView])
 
   return (
     <>
@@ -22,7 +22,7 @@ export default function NewGame ({ setView, dimensions }) {
       <CustomDimensionsForm
         boardDimensions={dimensions}
         showForm={showForm}
-        submit={() => setView('board')}
+        submit={onBoardView}
       />
     </>
   )

@@ -31,7 +31,7 @@ class Schema extends SchemaProvider
     {
         return [
             'board' => $resource->board,
-            'dimenesions' => $resource->dimenesions,
+            'dimensions' => $resource->dimensions,
             'seconds' => $resource->seconds,
             'createdAt' => $resource->created_at,
             'updatedAt' => $resource->updated_at,

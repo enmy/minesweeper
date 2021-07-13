@@ -5,13 +5,13 @@ import isMine from '../core/isMine'
 import visitAdjacent from '../core/visitAdjacent'
 import useSecondsHand from './useSecondsHand'
 
-export default function useBoard (dimensions) {
+export default function useBoard (dimensions, { defaultBoard = null, defaultSeconds = 0 } = {}) {
   const { width, height, mines, maxAdjacentMines } = dimensions
-  const [board, setBoard] = useState(() => initBoard(createBoard(width, height, mines)))
+  const [board, setBoard] = useState(() => defaultBoard || initBoard(createBoard(width, height, mines)))
   const [gameEnded, setGameEnded] = useState(false)
   const [runTimer, setRunTimer] = useState(false)
   const [minesCounter, setMinesCounter] = useState(mines)
-  const [seconds, setSeconds] = useSecondsHand(runTimer, gameEnded)
+  const [seconds, setSeconds] = useSecondsHand(runTimer, gameEnded, { defaultSeconds })
 
   useEffect(() => {
     if (gameEnded) {
@@ -34,11 +34,17 @@ export default function useBoard (dimensions) {
   }, [board])
 
   useEffect(() => {
-    restart()
+    if (!defaultBoard) {
+      restart()
+    }
   }, [width, height, mines])
 
   useEffect(() => {
-    setMinesCounter(mines)
+    if (defaultBoard) {
+      setMinesCounter(remainingMines(defaultBoard))
+    } else {
+      setMinesCounter(mines)
+    }
   }, [mines])
 
   const uncover = useCallback((x, y) => {
@@ -128,4 +134,14 @@ export default function useBoard (dimensions) {
     minesCounter,
     gameEnded
   }
+}
+
+function remainingMines (board) {
+  return board.reduce((total, row) => (
+    total + row.reduce((count, cell) => (
+      isMine(cell.value) && cell.state !== 'flagged'
+        ? count + 1
+        : count
+    ), 0)
+  ), 0)
 }
